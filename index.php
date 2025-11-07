@@ -1,40 +1,22 @@
 <?php
-$servername="localhost";$username="root";$password="";$dbname="keilas_db";
-$conn=new mysqli($servername,$username,$password,$dbname);
-if($conn->connect_error){die("Connection failed: ".$conn->connect_error);}
-session_start();
+require_once __DIR__ . '/db.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Keila's Bikes</title>
+<title>Keila's Bikes - Premium Bikes for Every Rider</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <div class="nav">
-    <div class="logo"><a href="index.php">🚴‍♀️ Keila's Bikes</a></div>
-    <nav>
-      <a href="index.php">Home</a>
-      <a href="about (1).php">About</a>
-      <a href="#bikes">Bikes</a>
-      <?php if(isset($_SESSION['user'])): ?>
-        <a href="dashboard.php">Dashboard</a>
-        <a href="logout.php" class="btn small">Logout</a>
-      <?php else: ?>
-        <a href="login.php" class="btn small">Login</a>
-        <a href="signup.php" class="btn small outline">Sign Up</a>
-      <?php endif; ?>
-    </nav>
-  </div>
-</header>
+
+<?php require_once 'navbar.php'; ?>
 
 <section class="hero animate">
   <div class="hero-content">
     <h1>Ride with Style & Power</h1>
     <p>Explore high-performance bikes designed for adventure, speed, and comfort.</p>
-    <a href="#bikes" class="btn">Explore Bikes</a>
+    <a href="shop.php" class="btn">Explore Bikes</a>
   </div>
   <div class="hero-img">
     <img src="bike1.jpg" alt="Bike Hero">

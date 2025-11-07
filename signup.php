@@ -1,8 +1,5 @@
 <?php
-$servername="localhost";$username="root";$password="";$dbname="keilas_db";
-$conn=new mysqli($servername,$username,$password,$dbname);
-if($conn->connect_error){die("Connection failed: ".$conn->connect_error);}
-session_start();
+require_once __DIR__ . '/db.php';
 $msg="";
 if($_SERVER['REQUEST_METHOD']=='POST'){
   $n=trim($_POST['name']);$e=trim($_POST['email']);$p=$_POST['password'];
@@ -13,11 +10,12 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     $r=$check->get_result();
     if($r->num_rows>0){$msg="Email already used.";}
     else{
-      $h=password_hash($p,PASSWORD_DEFAULT);
-      $ins=$conn->prepare("INSERT INTO users(name,email,password) VALUES(?,?,?)");
-      $ins->bind_param("sss",$n,$e,$h);
-      $ins->execute();
-      $msg="Account created! <a href='login.php'>Login</a>.";
+    // Store a secure hash of the password
+    $h = password_hash($p, PASSWORD_DEFAULT);
+    $ins = $conn->prepare("INSERT INTO users(name,email,password) VALUES(?,?,?)");
+    $ins->bind_param("sss", $n, $e, $h);
+    $ins->execute();
+        $msg="Account created! <a href='login.php'>Login</a>.";
     }
   }else{$msg="Please complete all fields.";}
 }
@@ -30,9 +28,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 <link rel="stylesheet" href="style.css">
 </head>
 <body class="form-bg">
-<header class="header-simple">
-  <div class="logo"><a href="index.php">🚴‍♀️ Keila's Bikes</a></div>
-</header>
+
+<?php require_once 'navbar.php'; ?>
 
 <div class="form-card animate">
   <h2>Join the Ride</h2>

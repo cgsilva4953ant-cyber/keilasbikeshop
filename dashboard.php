@@ -1,8 +1,5 @@
 <?php
-$servername="localhost";$username="root";$password="";$dbname="keilas_db";
-$conn=new mysqli($servername,$username,$password,$dbname);
-if($conn->connect_error){die("Connection failed: ".$conn->connect_error);}
-session_start();
+require_once __DIR__ . '/db.php';
 if(!isset($_SESSION['user'])){header("Location: login.php");exit;}
 $user=$_SESSION['user'];
 ?>
@@ -14,15 +11,8 @@ $user=$_SESSION['user'];
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <div class="nav">
-    <div class="logo"><a href="index.php">🚴‍♀️ Keila's Bikes</a></div>
-    <nav>
-      <a href="index.php">Home</a>
-      <a href="logout.php" class="btn small">Logout</a>
-    </nav>
-  </div>
-</header>
+
+<?php require_once 'navbar.php'; ?>
 
 <section class="dash animate">
   <div class="dash-card">
@@ -30,7 +20,8 @@ $user=$_SESSION['user'];
     <h2>Hello, <?=htmlspecialchars($user['name'])?>!</h2>
     <p>Your registered email: <?=htmlspecialchars($user['email'])?></p>
     <p class="note">Check out our latest bikes and exclusive offers.</p>
-    <a href="index.php#bikes" class="btn">Browse Bikes</a>
+    <a href="shop.php#bikes" class="btn">Browse Bikes</a>
+    <a href="orders.php" class="btn outline">My Orders</a>
   </div>
 </section>
 

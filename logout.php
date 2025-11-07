@@ -1,8 +1,5 @@
 <?php
-$servername="localhost";$username="root";$password="";$dbname="keilas_db";
-$conn=new mysqli($servername,$username,$password,$dbname);
-if($conn->connect_error){die("Connection failed: ".$conn->connect_error);}
-session_start();
+require_once __DIR__ . '/db.php';
 session_unset();
 session_destroy();
 header("Location: index.php");
