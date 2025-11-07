@@ -498,11 +498,26 @@ footer {
   box-shadow: 0 8px 16px rgba(0,0,0,0.2);
   border-radius: 8px;
   padding: 10px 0;
-  margin-top: 10px;
+  margin-top: 5px;
   z-index: 200;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
 }
-.dropdown:hover .dropdown-menu {
+.dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -15px;
+  left: 0;
+  right: 0;
+  height: 15px;
+  background: transparent;
+}
+.dropdown:hover .dropdown-menu,
+.dropdown.show .dropdown-menu {
   display: block;
+  opacity: 1;
+  transform: translateY(0);
 }
 .dropdown-menu a {
   display: block;
@@ -1671,8 +1686,12 @@ nav a.active {
     box-shadow: none;
     background: rgba(255,255,255,0.1);
     margin-top: 10px;
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
   .dropdown:hover .dropdown-menu,
+  .dropdown.show .dropdown-menu,
   .dropdown.active .dropdown-menu {
     display: block;
   }

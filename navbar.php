@@ -74,11 +74,12 @@ $current_page = basename($_SERVER['PHP_SELF']);
 </header>
 
 <script>
-// Mobile menu toggle
+// Enhanced dropdown and mobile menu functionality
 document.addEventListener('DOMContentLoaded', function() {
   const toggle = document.getElementById('mobileMenuToggle');
   const nav = document.getElementById('mainNav');
   
+  // Mobile menu toggle
   if (toggle && nav) {
     toggle.addEventListener('click', function() {
       nav.classList.toggle('active');
@@ -86,11 +87,59 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // Close mobile menu when clicking outside
+  // Enhanced dropdown behavior
+  const dropdowns = document.querySelectorAll('.dropdown');
+  
+  dropdowns.forEach(dropdown => {
+    const menu = dropdown.querySelector('.dropdown-menu');
+    let timeoutId;
+    
+    // Show dropdown on hover
+    dropdown.addEventListener('mouseenter', function() {
+      clearTimeout(timeoutId);
+      dropdown.classList.add('show');
+    });
+    
+    // Hide dropdown with delay on mouse leave
+    dropdown.addEventListener('mouseleave', function() {
+      timeoutId = setTimeout(() => {
+        dropdown.classList.remove('show');
+      }, 300); // 300ms delay
+    });
+    
+    // Keep dropdown open when hovering over menu items
+    if (menu) {
+      menu.addEventListener('mouseenter', function() {
+        clearTimeout(timeoutId);
+      });
+      
+      menu.addEventListener('mouseleave', function() {
+        timeoutId = setTimeout(() => {
+          dropdown.classList.remove('show');
+        }, 300);
+      });
+    }
+  });
+  
+  // Close mobile menu and dropdowns when clicking outside
   document.addEventListener('click', function(e) {
     if (!e.target.closest('.nav')) {
       nav.classList.remove('active');
       toggle.classList.remove('active');
+      
+      // Close all dropdowns
+      dropdowns.forEach(dropdown => {
+        dropdown.classList.remove('show');
+      });
+    }
+  });
+  
+  // Close dropdowns when clicking inside nav but outside dropdown
+  nav.addEventListener('click', function(e) {
+    if (!e.target.closest('.dropdown')) {
+      dropdowns.forEach(dropdown => {
+        dropdown.classList.remove('show');
+      });
     }
   });
 });
